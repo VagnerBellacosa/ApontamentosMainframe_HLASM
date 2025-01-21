@@ -1,0 +1,55 @@
+In this section, we'll be taking a look at SI and SS instructions, starting with SI instructions where one operand is storage and one is immediate.
+Instructions occupied two halfwords.
+One operand is the base displacement address, and the second operand is the immediate value.
+So if we want to move immediate, meaning we want to explicitly say copy from here to this address.
+We use the instruction MVI, opcode 92.
+So we might say MVI, 8(7),255 And we can interpret that to mean move the value of 255 (that's our immediate) to displacement 8 from register 7.
+The value of 255 is immediate.
+It's not a pointer to where the value is in memory.
+It's the value, 255.
+In memory, it looks like this: operation code 92.
+92.
+Then the second operand, the immediate value, and then the register and the offset.
+Now, we're not going to fully dive into Assembler notation until the next section.
+But let's take a peek at least because I know you're curious.
+Suppose we want to use the MVI command to move the character A to a location in storage.
+Like how, you know, you're going to ace this course and we're just going to allocate that A for you, so just like that, we're moving an A into a place so it can get recorded.
+Character A is C1, Charlie One in hex, 193 in decimal.
+We know this from the first few sections where we were converting data back-and-forth.
+That gives us this instruction: MVI, 8(7),193 Since we know it's an A, we can write it like this.
+C'A', and that will load the A.
+Or if we want to do it in hex, we can say X'C1'.
+That will load the exact same thing once our code gets assembled.
+It's a user preference and ease of readability option.
+And if we want to, for some reason, do it in binary, we could say MVI 8(7), B, single quote, 1100 0001, single quote.
+Options! They're good to have.
+All of these instructions generate the exact same machine instructions.
+It's gonna look like a C1 in there.
+Now that we know about that little trick we'll be using it for the rest of the course.
+So instead of saying hex Fox Fox, we'll say X'FF'.
+Same for binary: instead of binary 1100, we'll say B'1100'.
+No need to translate texts.
+We'll just say C, and then, for the text, we'll put that in the single quotes.
+When you don't see a prefix or single quotes, we can assume its decimal.
+Onto those SS instructions, where we've got two storage addresses.
+These occupy three halfwords and in memory they look like this.
+We've got the opcode.
+And then the first operand, which is the length.
+This specifies the length of the first operand.
+Then after that we've got the bases and displacements for our two storage locations.
+To specify the length operand, we'll use this format, displacement, parentheses, length, comma base register.
+The length field, L, is an 8-bit field, so it can go 0 to 255.
+The minimum length is one, making the maximum length 256.
+If we make a mistake and set it to length of zero, it'll copy one byte anyway.
+So don't do that unless you really mean to.
+Let's take a look at the SS Move instruction.
+SS Move can be used to copy up to 256 bytes from the second operand to the first.
+As you've probably guessed, the number of bytes moved is determined by the 8-bit length field.
+Our mnemonic is MVC and the opcode is Dog Two, D2.
+Therefore, if we want to move 48 bytes from one location to another, where the first operand, the destination operand is at displacement 16 from register 3, and the source is displacement 20 from register 4, we would code up something like this.
+Note that in the first section here we've specified the base and displacement plus the length.
+In memory.
+Our instruction looks like this.
+There's our opcode, the operand length, the first operand for storage, and then the second operand for storage.
+Moving right along, RXY, one register, one long displacement address.
+I will cover that in the next section.
