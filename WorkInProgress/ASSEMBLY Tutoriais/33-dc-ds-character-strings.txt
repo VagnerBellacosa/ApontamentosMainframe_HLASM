@@ -1,0 +1,99 @@
+In this section, we'll learn how to use DC and DS to define character, hexadecimal and bit strings, starting with characters.
+To define character strings, we use DC with a type of C, e.g. to define two fields with the characters ABC and 123, we'll use DC and then specify type C where there are characters in single quotes.
+In object code, the Assembler will generate the representation of these specified characters.
+Charlie One, Charlie Two, Charlie Three, and Fox One, Fox Two, Fox Three.
+It is possible to define ASCII and Unicode characters using a type extension as shown here, but we won't cover them in detail here.
+Character strings have variable length, so it's common to specify a field's length.
+If the specified length exceeds that of the value the field is padded on the right with blanks, EBCDIC 40s.
+You can see here we're DCing five characters, but we're only specifying three of them.
+So the right side, will get padded with blanks.
+Similarly with 123, if we DC four characters, it pads with one blank.
+The maximum length for type C is 256.
+If we set the length to less than the actual length of the value, the field will get truncated, it'll get cut.
+And we can see this is happening here.
+If we write 'Hello World', we're going to wind up with just 'Hello'.
+When it comes to characters, we have to be careful about what we code, even if we know what it's going to write into memory, consider these two definitions.
+One where we say to create five asterisks and one where we actually type out five asterisks and you know what? I always trip up for myself when I tried to say asterisk, it's just a weird words.
+I'm just going to say star from now on.
+Is that alright, where it's gonna go home stars.
+We can see the same thing happened in object code.
+Now, are these actually equivalent though? They certainly look like it.
+But you know, I wouldn't be asking if there wasn't a twist.
+Well, consider this.
+The length of Field1 is 1.
+The length of Field2 is 5.
+And remember that when we use the duplication factor, the label refers to the first element.
+This can actually affect the way that instructions work.
+If we define Field1 as five copies of the star and then define Source as the characters ABCDE, and then do an MVC from Source to Field1, it will only copy A, because Field1 has a length of one character.
+It's one character repeated five times, but it assumes that's meant to be 5 1-character fields, not a 5-character field.
+So you see the difference? That MVC will result in 'A****'.
+If that doesn't make sense, think about the length of each field and what the MVC command is attempting to accomplish.
+If we actually wanted to overwrite the stars with ABCDE, will need to actually spell out those stars, making it a 5-byte field.
+A duplication factor of zero can be useful when it comes to defining data structures.
+Here's an example of a very simple record and we'll talk about this in more detail on the next slide.
+So this first-line Employee defines a 34-byte field at location 000000.
+But because the duplication factor is zero, it doesn't actually reserve storage space.
+That means that a field which follows will overlap the Employee field.
+Maybe you see where this is going.
+Emp_name defines a 20-byte field at location zero, same location as Employee and the Assembler will set that up with the value 'Joan Smith', just like we asked.
+The next field is the employee number and it occupies 6 bytes from location 14.
+So the next available location after that is 1A, decimal 26.
+The next field is the employee date of birth, which is an 8-byte field with a duplication factor of zero.
+Duplication factor is zero just like the Employee one up top.
+So it's position is 1A, but it doesn't take up any space.
+The next three fields, year, month and day overlap with Emp_DOB, date of birth.
+The purpose of all this is that we can reference Employee and get the entire record just like we can reference date of birth and get the year, month, and day, or we can specify the month or the year or the employee number and get those fields individually.
+When it comes to quotes, the field value is enclosed in single quotes.
+But what if we need to store something that actually has a quote in it? Well, the answer is we write consecutive quotes as shown in the example here.
+A single quote inside a value will cause either an error or an unpredictable result.
+So when you mean to have a single quote within a character string, makes sure to include two of them back-to-back, so the Assembler knows that.
+Same goes with ampersands to define a character with an ampersand, just use two of them back-to-back.
+And then it'll give us a single X'50', which is EBCDIC for ampersand.
+When we're using Define Storage for characters, using a value can be useful to specify a length.
+Here we're using the largest number we expect the field to contain.
+And as long as we stay under those values, this is a good way to define storage.
+Just be careful to use DS for this and not DC as the storage will be empty and not containing the expected values.
+Onto defining hexadecimal and bit strings.
+To define the hexadecimal and bit strings, we use the type X for hexadecimal digits and B for bits.
+Hexadecimal and binary types are like characters, but with these two differences: one, they are truncated and padded on the left with binary zeros, not on the right with spaces.
+And two, their values can have spaces like we saw in binary integers.
+Here are some examples of hexadecimal strings showing the relation between the source statement and the object code.
+Notice that the minimum memory allocation is one byte, so an odd number of hex digits results in the padding on the left with X'0'.
+And when the explicit length exceeds the length of the value of the field gets padded on the left with hex zeros.
+Like we see here.
+When the explicit length is less than that of the value, the field is truncated on the left.
+And here we are using spaces to make this more readable.
+We already know that the Assembler will remove those spaces, but this just makes it easier for us to read.
+Just to hammer the point home: these statements produce the same object code as the examples on the previous slide.
+We can use either binary or hex to define fields.
+The recommendation is to use the type that best describes the program's intention.
+In this example, we see a definition of four bits, same as the previous example where we specified X'A', or Able.
+As before, when the value has less than eight bits, It's padded on the left with zero, same as with hex.
+In the next example, length exceeds the value, so it's padded with zeros.
+If we truncate, it's truncated on the left.
+And we can also leave spaces to make it more readable.
+All those ones and zeros start to blend into each other after a while.
+So again, I like spaces.
+This concludes the section on reserving and initializing storage using the DC and DS operations.
+There is another way to define storage though, literals, and that is literally our next topic.
+Literals can be used to define data in the instruction itself.
+E.g. if we want to add 100 to register 3, we can write =F'100' This turns out to be the same thing as using an Add statement, which references another statement where the value is located, but it's done in a single statement.
+We let the Assembler handle, taking care of the definition and all that stuff.
+Literals start with an equal sign followed by the data.
+To specify the data, we use the same syntax as we did for DC.
+And all the DC options are valid except for the duplication factor of zero.
+There are plenty of instances where this is the quicker and easier and preferred way to write.
+And thankfully the Assembler is there to do all the stuff that we don't want to.
+When we use literals, the Assembler will go ahead and define the values, and it will do that at the end of the program by default.
+Here's a few examples of literals in action.
+We've got an Add Halfword, Move Character and Move Character, and another version of that last example, but using a bit string instead of hex and using spaces because...
+you know I like spaces.
+Why use literals? Well, it brings the value into the instruction.
+We can see it all there at the same time.
+It means less jumping around when reading the code.
+It also means we don't have to come up with constants that we don't intend on using more than once.
+And unlike fields defined with DC, these are true constants, meaning they cannot be changed.
+So in summary: DC, Define Constant, is used to reserve storage with initial values.
+DS, Define Storage, is used to reserve storage without initial values and literals can be used to specify data directly in the instruction.
+This brings us to the conclusion of the defining data section.
+Up next, we'll get to putting everything together into our very first working program.

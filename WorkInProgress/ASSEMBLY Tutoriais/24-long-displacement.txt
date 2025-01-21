@@ -1,0 +1,48 @@
+There's a good chance you saw all that information about base-displacement.
+And maybe you said, Hey, that sounds pretty clever.
+But it seems like even then it can only reach 4,096 and there's no way to reach addresses before the base address.
+Well, you'll be happy to know that two forms of addressing will handle those concerns.
+Long displacement and relative addressing, which we're going to handle right here.
+With long displacement and we get a 20-bit signed displacement.
+Conceptually, this is what it looks like with our base address, the S being the sign bit and the D being the displacement.
+This extends the addressability from 4 KB to one megabyte.
+So it can go from hexadecimal 80,000 up to Fox, Fox, Fox, Fox, fox.
+That's 512 KB before and after the base address.
+To better visualize this, Here's our 12-bit base displacement with a four Kilobyte addressable space.
+And here's our long displacement on the right with a 20-bit displacement, 1 MB in total, 512 KB in either direction.
+Sounds great.
+How do we use them? What we'll find is that many instructions have a long and a 12-bit displacement version as well as a 20-bit displacement version.
+There's a 12-bit ADD and a 20-bit ADD.
+Let's see what these look like.
+The good news is that we don't really need to concern ourselves with how long displacement works.
+Just that it does.
+But we're assembly programmers, we'd like to dig into those details.
+So here's the actual long displacement format.
+What happens is that a eight bits sign prefix is appended to the traditional addressing halfword.
+The traditional displacement is now called the displacement low or the DL.
+The new, signed prefix is called the, you guessed it, the displacement high or the DH.
+To compute the effective address, the displacement high is added to the displacement low, essentially being rearranged internally to form that 20 bit displacement.
+We've got three examples of long displacements to check out.
+Starting with this one.
+We've got registers seven with Two Able Zero Zero Zero in it.
+Sounds familiar.
+And instruction comes in saying 76018.
+And if we rearrange the high displacement and the low displacement, we get 186 Able Zero.
+That's 100,000 in decimal and it starts with one, which is between Zero and Fox.
+So we know it's a positive 100,000.
+That means the effective address is Two Able Zero Zero Zero plus 186 Able Zero, so 426A0.
+Another example, what happens when the displacement puts us before the base address? So we've got our Two Able Zero Zero Zero loaded in register seven and our instruction spells out the displacement as Easy 7960, that is a negative 100,000 in decimal.
+Because it's a negative number, we propagate the sign all the way to the left of the value making the displacement Fox, Fox, Fox, Fox...
+Easy 7960.
+Adding that to the base gives us 11960, which comes before the base register of Two Able Zero Zero Zero.
+Just like that.
+Remember how I said there's a long version of many instructions like ADD? Here's an example of that: Calc_Tax is saying to Add Tax to R3 and that tick mark there it means to do the long version of it.
+Our operand has a 20-bit displacement, so we switch those around.
+We get 04010, which checks out because the effective address of Tax is Two Easy 010.
+Subtract the base of Two Able Zero Zero Zero from that, and it gives us the same displacement value.
+So let's recap.
+Long displacement gives us a 1 MB addressing range from the base address.
+That's 256 larger than traditional base displacement.
+Long displacements are signed.
+So it covers 512 KB before and after the base address.
+In the next section, we'll look at using a third form of addressing operands known as relative addressing.

@@ -1,0 +1,79 @@
+In this section, we're going to focus on the syntax of the Assembler language.
+An Assembler program is made up of statements.
+And when it comes to statements, there are four types of statements.
+There's machine instructions, those are what we've been focusing on in the previous units, so we're already pretty familiar with those.
+There's comments, simple enough, little bits of documentation which the Assembler ignores, but can be helpful for us.
+There's Assembler instructions which are there to provide information to the Assembler.
+And then there's macro instructions which are a compact notation of groups for statements.
+All Assembler statements except for comments have this format.
+There's the label, the operations, followed by the operands, the comments and continuation.
+A comment statement has just two fields, the comments, often called remarks and continuation.
+A label is just a name for a statement, so other statements can refer to it by name, making it easier for us.
+We've seen this for labels brought up throughout this course, usually in relation to Calc_Tax.
+So if an instruction has a label, we can jump to it with the Jump command.
+And if a fullword has a label like Amount, we can use Amount in an Add instruction.
+That's a lot easier than remembering addresses.
+Right? The label is optional, but if there is one, it must start on column one.
+It can be up to 63 characters long, but in practice, you'll rarely see one longer than eight.
+Older versions of Assembler didn't support more than eight.
+In general, we're trying to be efficient, so let's do our best to try to keep it to eight or fewer characters.
+The label is an Assembler symbol.
+And what does that mean? So glad you asked.
+An Assembler symbol starts with a letter or one of these characters, dollar sign, underscore, hashtag, at-sign.
+The rest of the symbol can contain numbers, but it can't start with a number.
+Other than that, there's no other characters which are involved.
+The letters can be mixed case, but Assembler doesn't distinguish between uppercase and lowercase.
+Hello, HELLO and hello are all the same as far as Assembler is concerned.
+But if it helps make a label more human-readable, using a mix of uppercase and lowercase can definitely help.
+These are all valid symbols, and since labels are symbols, they're also valid labels.
+Just a heads up though, if you're working on code that will be shared with others, be careful of certain text symbols like dollar sign, hashtag, and the at-sign because they may look different in other languages.
+E.g. dollar sign for someone in England might show up as a pound sign.
+Here are some examples of what not to do in an Assembler symbol.
+First example right there.
+Decimal point, not a permitted character.
+Bond/007, slash is not allowed.
+Set space go, well, you can't have a space or a blank in your symbol.
+Ten*Five The asterisk or star or splat is not allowed.
+C'Wonka' Well that's just plain old, confusing, but single quotes are also not allowed.
+And 2Faced, well, we can use numbers, just not in the first space so that one's not allowed.
+Next, we're at the operation.
+If we have a label, It's what comes one space after the label.
+In fact, even if there is no label, it starts after the first space.
+So you can have no label with the operations starting in column two.
+But we like our consistency and neat columns.
+So most of the time we'll start this in column 10.
+That's just a convention, that's where most people expect it to be.
+The operation can be a machine instruction mnemonic, which we saw in previous units, or an Assembler instruction.
+Operands are technically optional, though they're almost always used and they start one blank space after the operation, though, usually in column 16.
+Again, that's another convention.
+An operand cannot contain blanks unless they're in quotes, and they are separated by commas.
+Comments or remarks are optional but strongly recommended.
+They start at least one blank from the last operand and they need to be wrapped up by column 71.
+But what if I have a whole lot more to say and it won't fit in there.
+Well, if column 72 contains anything other than a blank, that indicates continuation; the author has something more to say.
+The continuation text must start on column 16.
+And the rest? Well, the Assembler will ignore anything on columns 73 through 80.
+73 through 80? Who came up with these rules? Well, the columns ended 80 because way back when Assembler was born, the majority of code was prepared on punch cards.
+Punch cards with 80 columns.
+And the last few columns were used for sequence numbers.
+What are sequence numbers? You know, the scene in The Office where Kevin is carrying the big pot of chilli and he trips and spills it all over the floor? It's pretty embarrassing.
+Not a whole lot of fun to clean up.
+Now picture that chilli is a big stack of hundreds of punch cards that you spent hours and hours preparing.
+Cards which needs to be fed into a card reader in a very specific order.
+Yeah, that's why we have sequence numbers.
+So we'll be writing our programs on a computer with a keyboard.
+So no need to worry about that situation, but that's why sequence numbers are typically included.
+Let's look at a few example Assembler instructions.
+How about a Jump to an instruction with the label Test_Add? And then at Test_Add there's an instruction that adds the contents of a fullword labeled Integer1 to a register.
+And Integer1 is the definition of a fullword.
+It might go something like this.
+Is this more or less what you pictured? We've got our label in column 1, our opcode in column 10, and operands starting in column 16 with comments over here.
+So as our code executes, It'll hit our Jump statement and then go down here to Test_Add.
+If we kinda virtually scroll down our code, we can see that Integer1, which Test_Add refers to, is right down here.
+It's a fullword with an initial value of 700, though, even if we couldn't figure that out, it's spelled out, oh, so nicely, over in the comments.
+World needs more comments like that.
+DC means Define Constant and it tells the Assembler to reserve a fullword in memory with an initial value.
+We'll cover DC and other Assembler instructions very soon.
+This is a fairly simple example, but it's a good check of everything we've covered up until this point.
+And it gives us a chance to look at the basics of syntax.
+Plus we got to see a DC Assembler instruction, which we'll see a lot more of in the next section.

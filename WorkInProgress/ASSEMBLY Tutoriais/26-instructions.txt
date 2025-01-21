@@ -1,0 +1,46 @@
+In this section we'll be talking about instructions.
+What do we know about instructions so far? Well, we know that program instructions reside in memory.
+We know that the PSW contains the addresses of the next instruction in the IA or the Instruction Address field.
+We know that the CPU picks the instruction for execution from the IA field and then load the next instruction into the IA field.
+We also know that if there's a branch or a jump, the branch target is loaded onto the IA and becomes the next instruction to be executed.
+So what are these instructions look like? Well, instructions are 1, 2 or 3 halfwords in length and always start on a halfword boundary, so, an even address.
+Instructions start with an operation code, often called an opcode, followed by operands.
+Those operands can be registers, memory addresses or immediates, where the operant is the value to be used itself, not the address of the data or a reference to it.
+Next, we'll learn about the instruction formats which are classified based on operand types.
+Now, a little bit of perspective here, the original System/360 architecture had five instruction formats and the good news is, we can still use them today.
+The formats refer to the operands in the instruction so, the first one, RR, stands for register and register.
+We're gonna be doing something that uses two registers.
+And then there's RS, register and storage.
+So that's an instruction that's operating on a register and something in storage.
+From there, there's RX: register and indexed storage (more on that in a bit).
+And then we've got SI for storage and immediate and SS for storage and storage.
+As the architecture evolved, more instructions and more instruction formats got added and we're up to 30 now, though, most of them are variations on the original five.
+Also, the original formats used a 12-bit base displacement.
+We'll be looking at two additional formats to show the use of long and relative addressing, as well as some other formats that we'll be needing.
+So we learned about long and relative addressing earlier.
+Here's two formats that use them: RXY is register and storage, where one operand is a register and one is a long displacement address.
+Then there's RI, register and immediate, where one operand is a register and one is a 16-bit relative address.
+Let's go back to that RR-type instruction.
+So we've got two registers.
+RR instructions occupy one halfword.
+In memory, they look like this: there's the opcode and there's our two registers.
+So we've been looking at types of instructions.
+Let's look at an actual instruction.
+Add Register.
+Add Register adds two registers together and puts the result in the first register.
+Now, each opcode has a mnemonic, a way of remembering it.
+Add Register's is AR.
+How convenient! So if we wanted to add register 14 to register 2, it would look something like this.
+There's our opcode and our two registers.
+And we also said add register 14 to register 2.
+That order is important.
+It's important to notice that typically the data moves from right to left in Assembler.
+So register 14 is on the right and register two is on the left.
+Ar is the mnemonic, the actual opcode for it is 1A, One Able.
+So once we take the opcode and the hex version of our registers, this is what our instruction will look like in memory after compiling or assembling our program: One Able Two Easy.
+ADD register 14 to register 2.
+How about another example? Subtract Register.
+The mnemonic here is SR, opcode is One Baker.
+So the statement subtracts register 12 from register 8.
+That instruction becomes SR 8,12 and in memory that becomes One Baker Eight Charlie.
+In the next section, we'll look at RS instructions, where we've got a general register and storage.

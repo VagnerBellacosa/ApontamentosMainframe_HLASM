@@ -1,0 +1,71 @@
+In this unit, we will see the Assembler instructions that we need in order to write a working program.
+So far, we've covered the Assembler syntax and how to reserve and initialize data using DC, DS, and literals.
+In this section, we'll put it all together and write our first working program.
+All Assembler program start with this label, CSECT.
+CSECT stands for Control Section, which is an Assembler program unit.
+It's just another word for program.
+It's actually where the first instruction of the program lives.
+The CSECT statement must have a label, and that becomes our program name.
+And at the end of the program, we use END, END.
+And there are typically no statements after END, and it must not have a label END is just END.
+There can be an operand for END, and when there is one, it's typically the program's first executable instruction.
+If we don't specify an instruction, it defaults to the one at location zero, which is the first instruction following CSECT.
+So an Assembler program might look like this with some details omitted obviously, but we can see the CSECT and we can tell the program is named DEMO1.
+Then there's our first instruction.
+Don't worry about what LARL means right now.
+Just know that it's an instruction and there's some more instructions, there's some definitions.
+And there's the END.
+To round out our education, we need to take a look at the USING statement.
+And to understand the USING statement, we need to quickly revisit base-displacement.
+Let's consider this instruction and the generated object code.
+We've got a Load Halfword instruction and we're loading Int1 into register 15.
+The first operand is the register, register 15.
+The second operand tells us the base, which is 12, and its displacement, which is X'018'.
+Now, two questions.
+We need to load the base register with the correct address.
+How does that happen? And part two, we've got 15 possible registers, how does the Assembler know which one to use? That's where the LARL L, A, R, L, instruction comes in.
+LARL loads the base register.
+It stands for Load Address Relative Long.
+So now we can use base-displacement to address up to 4,096 bytes from this point, even more, if we use long displacement, LARL itself doesn't have a base register as its name suggests, it uses relative addressing.
+It's a very easy instruction to use and it's the recommended way to load a register.
+USING tells the Assembler that the base address is DEMO1, and that register 12 is the base register.
+Alright, we're almost there.
+There's just two more things we need to know.
+And they're not directly about Assembler, but more about the conventions of z/OS.
+The operating system will be running the program on.
+And that's how to stop a program and how to pass a return code.
+All good things must come to an end.
+So how do we stop a program? Well, in z/OS register 14 contains the address to return to the program's caller.
+So running BR 14, a Branch to the address in register 14, effectively stops the program.
+It's the last instruction to execute, and virtually all Assembler programs running in z/OS end with a Branch to register 14.
+Return codes are how the user or another program knows of a program's success or failure.
+When you run a program, you hope to get a condition code of zero because that means everything ran as expected.
+No errors, no warnings.
+All good, no notes.
+Condition code eight means something went wrong, as does condition code 12 and 16.
+We'll get to them on the next page where we can pass a return code of anything between 0 and 4096 by loading it into register 15.
+So if we wanted to set the condition code to 20, we'd perform a Load Halfword into register 15, the value of 20.
+The big three return codes you're most likely to encounter on z/OS are condition code zero, Good job.
+Everything ran okay with no errors.
+Condition code 4, that means there's a warning but with minor errors and the program was able to continue.
+And condition code 8 means there was an error and more than likely the program had to be stopped.
+That's the one you don't want to see.
+Finally, here we have a working program.
+It doesn't do much.
+It just loads a register with a value and then sets that value as the return code.
+But this program probably, hopefully makes sense.
+When you start to look at it.
+We've got the start of the program with the CSECT, which we know is DEMO1.
+We've got the LARL instruction to load the address of DEMO1 into register 12.
+And then USING to tell the Assembler to use register 12 as its base register.
+We've got a Load Halfword to load Int1 into register 3, which coincides with the displacement because the base is the start of the program at zero.
+We're setting the return code to what we just loaded into register 3, giving the program a return code of hexadecimal A or decimal 10.
+Then there's a Branch 14, a BR 14 which returns to the caller, in this case the operating system, and that ends the execution.
+Finally, we END the program since there are no more statements for this program, It's admittedly not a very exciting program, but all the parts are there.
+And we know how it works.
+If we look to that same thing at the beginning of this course, we wouldn't be able to make much sense of anything.
+I know I wouldn't.
+So what's next? Well, there's still room for improvement.
+There are some parts missing that should be there in production programs, which we'll learn about later.
+But when we run the program, we should get a message like this saying that the program ran, it ended, and it gave us a condition code of ten.
+In the next section, we'll cover how to assemble and run a program.

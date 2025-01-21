@@ -1,0 +1,64 @@
+In this section we'll be covering RXY and RI instructions.
+RXY: one register, one long displacement address.
+Let's get this.
+These occupy three halfwords and the structure is slightly more complicated.
+So we'll approach it in two stages.
+This has an opcode and an operation mode, and they're located at opposite ends of the instruction, both eight bytes.
+The first operand, the register, comes after the opcode upfront.
+That leaves us with the second operand.
+Let's look at that.
+This should look fairly similar to the long displacement that we saw in the last unit, except it also has an index register.
+So there's the index, the base, the displacement low, and the displacement high.
+Altogether, here's the super crowded picture and now you can see why we wanted to do this in two stages.
+Apart from having a long displacement operand RXY instructions behave just like RX instructions.
+In fact, if we look at them like this, we can see that the first four bytes are actually the same.
+It's just the extra bits that make it an RXY instruction.
+That's what makes it different.
+And we've seen the Add instruction in both RR and RX formats.
+How about in the RXY format? Gotta collect them ll, right? Our mnemonic is AY, the Y indicating long.
+And our opcode is E35A.
+That's a longer opcode than we're used to seeing.
+That's an extended opcode with the second half there, that's our mode.
+So if we want to add to register 3 the fullword at displacement 20,000 from register 5.
+We won't be able to use the RX type Add because the displacement exceeds 4095 bytes.
+But the Assembler source statement is going to be very similar to our RX example.
+It'll be AY 3,20000, and then in parentheses, (0,5) because we're not using the index, just like in the RX example.
+And in memory, we break that operation code out to the beginning and the end again.
+Our first operand is the register, that's 3.
+Second operand is the base and index that's registered 5 with an index of zero.
+And then the displacement low.
+And then here's the displacement high.
+Finally, we made it to the RI instruction format for when one operand is a register and one is a 16-bit relative address.
+RI instructions occupied two halfwords and the second operand is an immediate value.
+There are three variants of the RI instructions.
+And for right now, we're just going to focus on the type where the immediate value is a relative address.
+The other two will look at as needed.
+Let's get a look at that instruction format.
+You can see the RI instructions have an extended 12-bit operation code.
+Not quite as drastic as the RXY instructions but still split apart like that.
+Then we've got this concept of a four bit mask, which controls the instruction operation.
+I know more on that in a bit.
+As we mentioned a few seconds ago, the second operand is a signed displacement, which is the number of halfwords from the instruction itself.
+We've briefly mentioned the jump command before.
+It's a form of the branch command that uses relative addressing instead of base displacement.
+It's mnemonic, is J, opcode A74.
+And notice its 12-bit extended opcode there.
+Let's see it from another angle.
+So if we wanted to jump to the instruction at 8,000 bytes from this one, this very instruction, the Assembler source statement is simply J, star or asterisk, plus 8000.
+The star means here or this location.
+In memory, it looks like this with the opcode upfront and over here with the four bitmask in the middle and the second operand, the relative immediate address at the end.
+The relative address will get calculated by the Assembler.
+But just for completeness, if we take 8,000 bytes divided in half because we're talking about halfwords here.
+That's 4,000 halfwords.
+And 4,000 decimal is 0FA0 in hex.
+That is our relative address.
+And that concludes the introduction to the elements of the IBM z architecture which an Assembler application programmer is going to work with.
+Now, I'm fully aware that that felt like a lot.
+And yet somehow it's not the complete picture.
+Remember, we're trying to build up that foundation, which we can then build upon.
+So we'll be learning more elements as we go on.
+But if you're feeling good right now, you should keep feeling good.
+And if you're still a little fuzzy about some areas, test yourself with the quizzes.
+Go back and look at the instruction formats and their examples.
+And it will all start to come together, I promise.
+In the next section, we'll get into the rules of the Assembler language.
