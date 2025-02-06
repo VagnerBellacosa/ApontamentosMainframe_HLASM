@@ -1,0 +1,86 @@
+I told you that we weren't going to need any advanced calculus and I'm going to stay true to my word.
+But in order to get into basic number crunching will have to go way back to the days of carrying and borrowing numbers.
+Oh yeah.
+Did that just make the back of your brain tingle like it did mine? Let's take a look at a few examples of hexadecimal addition and subtraction.
+Two Baker plus 53.
+Taking the rightmost column, Baker plus 3 in decimal is 11 plus 3, that's 14 or hex E, Easy.
+Then the next column, 2 plus 5, that's 7 or 7.
+So Seven Easy.
+And if we take it a step further and convert it back to binary, we've got 0111, 1110.
+0111 is 7.
+1110 is E.
+Easy.
+And yes, that is a binary palindrome right there.
+Whenever you see one of those, make a wish.
+Oh, you wished for another example? I like your style.
+How about Two Baker plus Four Able? Baker plus Able is 11 plus 10, that's 21.
+And that's more than we can represent in a single hexadecimal digit.
+It actually translates to hexadecimal 15.
+So we'll take the 5, leave that in the rightmost position.
+And just like in basic math, will carry the one, leaving us with two plus four plus the one we carried, that's seven, giving us 75.
+75.
+Now, it's important to note that this is 75 hex, 75 hex.
+Just because there aren't any letters in here doesn't always mean it's decimal.
+We shouldn't make assumptions.
+In fact, 1010 0011 could also very well be a decimal or even a hexadecimal number.
+And later on we'll get into how to definitively spell out what number system a number is based on.
+But for right now, we just have to remember that this is 75 in hex and not decimal.
+And because it's hexadecimal, we can take 7 and 5 and convert them to their binary forms, getting 0111 0101.
+Here's the same numbers being added in decimal, hexadecimal and binary.
+If we're converting by hand, it's often easier to convert the hex and then back to binary.
+I know that when I'm dealing with that many columns and just two types of digits, I'm prone to make mistakes.
+And going into hex means fewer steps for the actual additional steps.
+So just something to keep in mind.
+You probably saw this coming a mile away, but what about subtraction like Seven Able minus Two Baker.
+Well, right off the bat, Able is less than Baker, so we need to borrow from that next column over.
+We're going to borrow a hexadecimal 10, basically adding a 1 to the right of that Able, which gives us One Able minus Baker.
+that's 26 -11, which equals 15, which is hexadecimal F.
+So we're back to one digit and we're feeling good again.
+Then we've got 7 minus 2 minus the 1 that we just borrowed, leaving us with 4.
+So Four Fox, 4F and converting that to binary, that gives us 0100 1111.
+What about when the result of a subtraction is a negative number? You may be relieved or disappointed to know that this will not result in the computer catching on fire or something like that.
+So if we've got Two Baker minus Seven Able.
+We need to first notice that Two Baker is less than Seven Able.
+So we'll flip them around and slap a minus sign on the front of whatever we get from the last example, we learned that Seven Able minus Two Baker equals Four Fox.
+Therefore Two Baker minus Seven Able equals negative Four Fox.
+It's pretty simple, but representing that in computer memory requires some special thinking.
+The IBM z/Architecture, which is the architecture of the systems that we'll be working on, represents binary integers in fixed length fields, meaning that there's a space and memory that won't grow or shrink.
+It's a container made just for that data.
+When we have 16 binary digits or bits, that's called a halfword.
+And we already know that 16 binary digits can be reduced to four hexadecimal digits, like Zero Zero Five Baker.
+32 bits is called a fullword, like 0000 00 Five Baker and 64 bits is, you guessed it, a doubleword.
+So just like the thing I just said with the additional eight zeros in the front of that, that makes it a doubleword.
+And binary digits can be signed or unsigned.
+Signed integers can be positive or negative.
+Unsigned and positive integers are represented pretty much as you'd expect.
+Negative numbers are represented using something called two's complement notation.
+Which is something we'll cover in greater detail real soon.
+When it comes to unsigned binary integers, we can represent around 65,000 numbers, all zeros to all F's.
+That's our range.
+And you can see how that translates to hexadecimal and decimal and binary right here.
+If we double that into an unsigned fullword, we can represent a much larger range of numbers.
+Keep going to a doubleword and you get the idea.
+Now onto signed integers where we wanna be able to denote positive and negative in a signed integer, the leftmost digit indicates the sign zero for positive, one for negative, and then the remaining digits indicates the number itself.
+Positive binary integers are presented as you'd expect them, and negative integers are in two's complement with the bits sign of 1 out front.
+If you're not familiar with two's complement, we invert each bit of the positive integer and then add 1.
+And the same process will convert a negative integer into a positive.
+So let's see that in practice.
+Let's take negative 95.
+We can convert that to hex and then to binary and add one.
+This is our negative 95, and here it is in hexadecimal.
+And if we want to make this a fullword or a doubleword, all we need to do is extend the sign bit to the left.
+Since this is a negative number, we extend the one in binary or the F in hex.
+And if it were a positive number, we would just extend the zero over.
+Let's take that negative 95 and flip it back to a positive 95.
+Negative 95 in hexadecimal is Fox Fox Able One.
+In binary, that's...
+I'm not going to read it, it's this.
+Invert the bits, add 1, that gives us 0000, 0000, 0101, 1111.
+A signed binary integer can represent numbers from around 32,000 to negative 32,000, anywhere from negative two to the 15th, two to the 15th minus 1.
+A few examples of that are listed here.
+And bigger numbers for the fullwords, and even bigger numbers for the doublewords.
+That's all we need to know about working with signed and unsigned integers and basic arithmetic for Assembler.
+I know that for some it's a refresher.
+For others, it might be worth stepping through some of those examples one by one just to make sure you caught the process.
+When you're ready.
+We're going to keep going into the next section where we're going to learn about actual computer components and just how to use all of this bit and byte talk that we just covered.
